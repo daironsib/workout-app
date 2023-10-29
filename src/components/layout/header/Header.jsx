@@ -1,32 +1,38 @@
 import { IoMdArrowBack } from 'react-icons/io'
-import {TfiUser} from 'react-icons/tfi'
+import { SlUser } from 'react-icons/sl'
+import { useLocation, useNavigate } from 'react-router-dom'
+
 import { useAuth } from '../../../hooks/useAuth'
 
 import Hamburger from '../hamburger/Hamburger'
 
 import styles from './Header.module.scss'
-import { useNavigate, useLocation } from 'react-router-dom'
 
 const Header = ({ backLink = '' }) => {
-	/* TODO: React router useHistory */
-
-	const {pathName} = useLocation()
+	const { pathname } = useLocation()
 	const navigate = useNavigate()
 
 	const { isAuth } = useAuth()
 
 	return (
 		<header className={styles.header}>
-			{pathName !== '/' ? (
-			<button onClick={() => {navigate(backLink)}}>
-				<IoMdArrowBack fill='#fff' fontSize={29} />
-			</button>
-			) : 
-			<button onClick={() => {navigate('/profile')}}>
-				<TfiUser fill='#fff' fontSize={27} />
-			</button>
-			}
-			{/* User profile */}
+			{pathname !== '/' ? (
+				<button
+					onClick={() => {
+						navigate(backLink)
+					}}
+				>
+					<IoMdArrowBack fill='#fff' fontSize={29} />
+				</button>
+			) : (
+				<button
+					onClick={() => {
+						navigate(isAuth ? '/profile' : '/auth')
+					}}
+				>
+					<SlUser fill='#fff' fontSize={25} />
+				</button>
+			)}
 			<Hamburger />
 		</header>
 	)
